@@ -1,0 +1,23 @@
+.button {
+  background-color: #000;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  &:hover {
+    background-color: #333;
+  }
+  
+  &:primary {
+    background-color: #000;
+    color: #fff;
+  }
+  &:secondary {
+    background-color: #fff;
+    color: #000;
+  }
+}

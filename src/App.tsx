@@ -1,20 +1,9 @@
-import { useState } from "react"
-import { Button } from "./components/Button/Button"
+import Board from "./components/Board/Board"
 
 function App() {
-  const [count, setCount] = useState(5)
-
-  const handleClick = () => {
-    setCount(count + 1)
-  }
-
   return (
     <div>
-      <Button count={count} onClick={handleClick} />
-      <Button count={count} onClick={handleClick} />
-
-      <Button count={count} onClick={handleClick} />
-
+      <Board />
     </div>
   )
 }

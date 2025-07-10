@@ -1,55 +1,69 @@
-import { Link } from "react-router-dom"
-import Board from "./components/Board/Board"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
-
+  const baseUrl = "https://dummyjson.com";
+  const [users, setUsers] = useState([]);
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    remember: false,
-    gender: ""
+    firstName: "",
+    lastName: "",
+    age: 0,
   });
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
-    const formDataObject = Object.fromEntries(formData);
-    console.log(formDataObject.name, 'formDataObject');
+    const formDataObject = Object.fromEntries(formData)
+
+    const id = Math.floor(Math.random() * 1000000);
+    fetch(`${baseUrl}/users/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept-Language": "en",
+      },
+    })
+      .then(res => res.json())
+      .then(data => console.log(data, 'data'))
+      .catch(err => console.log(err, 'err'));
+
   }
+
+  function getUsers() {
+    fetch(`${baseUrl}/users`)
+      .then(res => res.json())
+      .then(data => setUsers(data.users))
+      .catch(err => console.log(err, 'err'));
+  }
+
+  // lifecycle method
+  useEffect(() => {
+
+    getUsers();
+
+    return () => {
+      // cleanup function
+      console.log("unmount");
+    }
+
+  }, []); // dependency array - if empty, it will run only once
 
   return (
     <div>
       <form className="flex flex-col gap-2 w-[300px] mx-auto my-10" onSubmit={handleSubmit}>
-        <input className="border-2 border-gray-300 rounded-md p-2" type="text" name="name" placeholder="Name"  />
-        <input className="border-2 border-gray-300 rounded-md p-2" type="email" name="email" placeholder="Email" />
-        <input className="border-2 border-gray-300 rounded-md p-2" type="password" name="password" placeholder="Password" />
-        <div className="flex gap-2">
-          <input type="radio" name="gender" id="male" value="male" />
-          <label htmlFor="male">Male</label>
-          <input type="radio" name="gender" id="female" value="female" />
-          <label htmlFor="female">Female</label>
-        </div>
-        <input className="border-2 border-gray-300 rounded-md p-2" type="checkbox" name="remember" id="remember" />
-        <label className="text-sm" htmlFor="remember">Remember me</label>
-
-        <select
-          className="border-2 border-gray-300 rounded-md p-2"
-          name="country"
-          id="country"
-          onChange={(e) =>
-            setFormData({ ...formData, [e.target.name]: e.target.value })
-          }
-        >
-          <option value="">Select Country</option>
-          <option value="india">India</option>
-          <option value="usa">USA</option>
-          <option value="uk">UK</option>
-        </select>
+        <input className="border-2 border-gray-300 rounded-md p-2" type="text" name="firstName" placeholder="First Name"  />
+        <input className="border-2 border-gray-300 rounded-md p-2" type="text" name="lastName" placeholder="Last Name"  />
+        <input className="border-2 border-gray-300 rounded-md p-2" type="number" name="age" placeholder="Age"  />
 
         <button className="bg-blue-500 text-white rounded-md p-2" type="submit">Submit</button>
       </form>
+
+      <div className="flex flex-col gap-2 w-[300px] mx-auto my-10 text-center">
+        {users.map((user: any) => (
+          <div key={user.id} className="border-2 border-gray-300 rounded-md p-2">
+            <p>{user.firstName} {user.lastName} {user.age}</p>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }

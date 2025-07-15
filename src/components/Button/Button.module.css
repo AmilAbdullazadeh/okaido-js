@@ -21,3 +21,13 @@
     color: #000;
   }
 }
+
+.light {
+  background-color: #fff;
+  color: #000;
+}
+
+.dark {
+  background-color: #000;
+  color: #fff;
+}

@@ -1,28 +1,43 @@
-import { useCallback, useEffect, useState } from "react";
+import { AuthProvider, useAuth } from "./store/AuthContext/AuthContext";
 
 function App() {
-  // useCallback example calculate for bank percentage for credit card
-  const [amount, setAmount] = useState(0);
-  const [percentage, setPercentage] = useState(0);
-  const [result, setResult] = useState(0);
 
-  // useCallback is a hook that returns a memoized callback
-  const calculatePercentage = useCallback(() => {
-    setResult(amount * percentage / 100);
-  }, [amount, percentage]);
+  function LoginPage() {
+    const { login } = useAuth();
+    return (
+      <div>
+        <h2>Xahiş edirik, sistemə daxil olasınız</h2>
+        <button onClick={login}>Daxil ol</button>
+      </div>
+    );
+  }
+  
+  function Dashboard() {
+    const { currentUser } = useAuth();
+    return (
+      <div>
+        <h2>İdarəetmə Paneli</h2>
+        <p>Sistemə uğurla daxil oldunuz, {currentUser?.name}!</p>
+      </div>
+    );
+  }
 
-  useEffect(() => {
-    calculatePercentage();
-  }, [calculatePercentage]);
+  function Display() {
+    const { currentUser } = useAuth();
+  
+    return (
+      <div>
+        {currentUser ? <Dashboard /> : <LoginPage />}
+      </div>
+    );
+  }
 
-  return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <h1 className="text-2xl font-bold text-center">useCallback</h1>
-      <input className="border-2 border-gray-300 rounded-md p-2" type="number" value={amount} onChange={(e) => setAmount(Number(e.target.value))} />
-      <input className="border-2 border-gray-300 rounded-md p-2" type="number" value={percentage} onChange={(e) => setPercentage(Number(e.target.value))} />
-      <p className="text-lg font-bold">{result}</p>
-    </div>
-  )
-}
-
+    return (
+      <AuthProvider>
+        <h1>Autentifikasiya Nümunəsi</h1>
+        <Display />
+      </AuthProvider>
+    );
+  }
+  
 export { App }

@@ -1,42 +1,43 @@
-import { AuthProvider, useAuth } from "./store/AuthContext/AuthContext";
+import { Counter } from "./components/Counter/Counter";
 
 function App() {
 
   function LoginPage() {
-    const { login } = useAuth();
     return (
       <div>
         <h2>Xahiş edirik, sistemə daxil olasınız</h2>
-        <button onClick={login}>Daxil ol</button>
       </div>
     );
   }
   
   function Dashboard() {
-    const { currentUser } = useAuth();
     return (
       <div>
         <h2>İdarəetmə Paneli</h2>
-        <p>Sistemə uğurla daxil oldunuz, {currentUser?.name}!</p>
       </div>
     );
   }
 
   function Display() {
-    const { currentUser } = useAuth();
   
     return (
       <div>
-        {currentUser ? <Dashboard /> : <LoginPage />}
+        <Dashboard />
       </div>
     );
   }
 
     return (
-      <AuthProvider>
-        <h1>Autentifikasiya Nümunəsi</h1>
-        <Display />
-      </AuthProvider>
+        <div className="min-h-screen bg-gray-100 py-8">
+          <div className="container mx-auto px-4">
+            <h1 className="text-3xl font-bold text-center mb-8">Redux Toolkit + TypeScript Example</h1>
+            
+            <div className="mb-8">
+              <Counter />
+            </div>
+            
+          </div>
+        </div>
     );
   }
   

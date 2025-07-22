@@ -1,31 +1,7 @@
 import { Counter } from "./components/Counter/Counter";
+import { Todo } from "./components/Todo/Todo";
 
 function App() {
-
-  function LoginPage() {
-    return (
-      <div>
-        <h2>Xahiş edirik, sistemə daxil olasınız</h2>
-      </div>
-    );
-  }
-  
-  function Dashboard() {
-    return (
-      <div>
-        <h2>İdarəetmə Paneli</h2>
-      </div>
-    );
-  }
-
-  function Display() {
-  
-    return (
-      <div>
-        <Dashboard />
-      </div>
-    );
-  }
 
     return (
         <div className="min-h-screen bg-gray-100 py-8">
@@ -34,6 +10,10 @@ function App() {
             
             <div className="mb-8">
               <Counter />
+            </div>
+
+            <div className="mb-8">
+              <Todo />
             </div>
             
           </div>
